@@ -3,7 +3,7 @@ BFS,DFS,Djikstra and A*
 
 # Input :
 
-            graph = 
+            undirected_graph = 
            
                        {
 
@@ -26,11 +26,36 @@ BFS,DFS,Djikstra and A*
                         "i":["g","h"]
 
                         }
-            
+            directed_graph =
+                        {
+                            "a":{"b":2,"d":3,"c":2},
+
+                            "b":{"e":5},
+
+                            "c":{"a":2,"f":1},
+
+                            "d":{"b":1,"f":2},
+
+                            "e":{"h":6},
+
+                            "f":{"e":1,"g":7},
+
+                            "g":{"h":1},
+
+                            "h":{"i":3},
+
+                            "i":{"g":5}
+                        }
+
+For these results , directed graph is the input.  
 # BFS :
 
-            ['a', 'b', 'c', 'd', 'e', 'f', 'h', 'g', 'i']
+            ['a', 'b', 'd', 'c', 'e', 'f', 'h', 'g', 'i']
 
 # DFS:   
 
-            ['a', 'b', 'e', 'f', 'g', 'i']
+            ['a', 'b', 'e', 'h', 'i']
+
+# Djikstra 
+
+            (['a', 'c', 'f', 'e', 'h', 'i'], 13)

@@ -1,3 +1,4 @@
+from sys import maxsize as inf 
 class GraphSearch:
     def __init__(self,graph,start,goal) -> None:
         self.graph = graph 
@@ -46,10 +47,45 @@ class GraphSearch:
 
         return None 
 
+    def djikstra(self):
+        node_cost = {node: inf for node in self.graph}
+        node_cost[self.start] = 0
+        queue = set(self.graph)
+        previous = {node: None for node in self.graph} #keep track to generate path 
+
+        while queue:
+            node = min(queue, key=lambda node: node_cost[node])
+            queue.remove(node)
+
+            if node == self.goal:
+                break
+
+            for vertex in self.graph[node]:
+                edge_cost = self.graph[node][vertex]
+                if edge_cost + node_cost[node] < node_cost[vertex]:
+                    node_cost[vertex] = edge_cost + node_cost[node]
+                    previous[vertex] = node
+
+        path = []
+        node = self.goal
+        while node:
+            path.append(node)
+            node = previous[node]
+        if path[-1] != start: #if no path 
+            return None , inf
+
+        return path[::-1], node_cost[self.goal], 
+
+
+
+
+
+       
+
 
 if __name__ == "__main__":
 
-    graph = {"a":["b","c","d"],
+    undirected_graph = {"a":["b","c","d"],
             "b":["a","d","e"],
             "c":["a","f"],
             "d":["a","b","f"],
@@ -59,11 +95,25 @@ if __name__ == "__main__":
             "h":["e","g","i"],
             "i":["g","h"]
             }
+    directed_graph = {"a":{"b":2,"d":3,"c":2},
+                      "b":{"e":5},
+                      "c":{"a":2,"f":1},
+                      "d":{"b":1,"f":2},
+                      "e":{"h":6},
+                      "f":{"e":1,"g":7},
+                      "g":{"h":1},
+                      "h":{"i":3},
+                      "i":{"g":5}
+                    }
+
     start = "a"
     goal = "i"
 
-    search = GraphSearch(graph,start,goal)
+    search = GraphSearch(directed_graph,start,goal)
 
     print("BFS:  ", search.bfs())
     print("DFS:  ", search.dfs())
+    print("Djikstra:  ", search.djikstra())
+
+    
 
